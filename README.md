@@ -1,6 +1,6 @@
 # computer-use-omni
 
-A faithful **1:1 replica of Anthropic's official `computer-use` tool surface** — for **Windows**, where Anthropic doesn't ship it. It lets the **Claude Code CLI** (or any MCP client) drive the Windows desktop the way Claude Desktop's built-in computer-use does: screenshots, mouse / keyboard / scroll / drag / batch input, clipboard, multi-monitor, and application launch.
+A faithful **1:1 replica of Anthropic's official `computer-use` tool surface** — shipped as a plain **MCP server** for Windows. It lets the **Claude Code CLI** (or any MCP client) drive the Windows desktop the way Claude Desktop's built-in computer-use does: screenshots, mouse / keyboard / scroll / drag / batch input, clipboard, multi-monitor, and application launch.
 
 Same tool names, same parameters, same coordinate semantics as the desktop tool — an agent that already knows Anthropic's computer-use works here unchanged. Built and verified against Claude Desktop's own `computer-use` as the ground-truth oracle.
 
@@ -84,6 +84,10 @@ All click / move / scroll / drag / zoom coordinates are in the **image-pixel spa
 See **[SPEC.md](SPEC.md)** for the authoritative, tool-by-tool contract and the module architecture.
 
 ## Differences from the desktop tool (by design)
+
+The built-in computer use grants apps from the list of *installed* applications and applies a tiered model: browsers are visible but read-only, terminals and IDEs are click-only — no keystrokes, by architecture. Sensible defaults for general desktop use, and they close off the workflow this server was built for: letting the agent launch the app you are *currently building* — a loose `.exe` no install list knows about — click through it, type into it, verify behavior, then go back to the IDE and edit code.
+
+omni grants every approved app at `tier:"full"` — IDEs, terminals, and dev builds included (`open_application` accepts a full `.exe` path). Full power, your responsibility.
 
 A CLI has no permission GUI, so `request_access` **auto-grants** resolvable apps at `tier:"full"` and returns the same JSON shape; foreground gating is permissive by default (it only errors on an empty allowlist). Masking of non-allowlisted windows defaults off (the rect-based masker over-masks). Teach mode is a stub — it executes the step's actions and returns a screenshot, but there is no fullscreen tooltip overlay (a desktop-app feature). Each of these is controlled by the env vars below.
 
