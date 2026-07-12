@@ -4,7 +4,7 @@ A faithful **1:1 replica of Anthropic's official `computer-use` tool surface** �
 
 Same tool names, same parameters, same coordinate semantics as the desktop tool — an agent that already knows Anthropic's computer-use works here unchanged. Built and verified against Claude Desktop's own `computer-use` as the ground-truth oracle.
 
-> Vision-and-coordinate based, like the official tool (rather than a UI-tree / accessibility approach) — for when you want Anthropic's computer-use paradigm on a Windows CLI.
+> Vision-and-coordinate based, like the official tool (rather than a UI-tree / accessibility approach) — for when you want Anthropic's computer-use paradigm on a Windows CLI: desktop automation, GUI testing, or letting the agent verify the app you're building.
 
 ## Install
 
