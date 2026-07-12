@@ -1,0 +1,10 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Calculator", "Notepad"], "reason": "verify calculator clicks against CDC ground truth"}},
+  {"tool": "open_application", "args": {"app": "Calculator"}},
+  {"tool": "left_click", "args": {"coordinate": [1232, 481]}},
+  {"tool": "left_click", "args": {"coordinate": [1100, 567]}},
+  {"tool": "left_click", "args": {"coordinate": [1294, 656]}},
+  {"tool": "left_click", "args": {"coordinate": [1168, 567]}},
+  {"tool": "left_click", "args": {"coordinate": [1294, 697]}},
+  {"tool": "screenshot", "args": {}}
+]

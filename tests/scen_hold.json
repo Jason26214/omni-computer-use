@@ -1,0 +1,15 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Notepad"], "reason": "hold_key retest", "clipboardRead": true}},
+  {"tool": "open_application", "args": {"app": "Notepad"}},
+  {"tool": "key", "args": {"text": "win+Up"}},
+  {"tool": "computer_batch", "args": {"actions": [
+    {"action": "wait", "duration": 0.5},
+    {"action": "left_click", "coordinate": [400, 400]},
+    {"action": "key", "text": "ctrl+a"},
+    {"action": "key", "text": "delete"},
+    {"action": "hold_key", "text": "a", "duration": 0.6},
+    {"action": "key", "text": "ctrl+a"},
+    {"action": "key", "text": "ctrl+c"}
+  ]}},
+  {"tool": "read_clipboard", "args": {}}
+]

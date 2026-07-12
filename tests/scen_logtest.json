@@ -1,0 +1,5 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Notepad"], "reason": "log test"}},
+  {"tool": "screenshot", "args": {}},
+  {"tool": "read_clipboard", "args": {}}
+]

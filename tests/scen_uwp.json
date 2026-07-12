@@ -1,0 +1,6 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Calculator"], "reason": "phase3 cold UWP launch test"}},
+  {"tool": "open_application", "args": {"app": "Calculator"}},
+  {"tool": "wait", "args": {"duration": 1.5}},
+  {"tool": "screenshot", "args": {}}
+]

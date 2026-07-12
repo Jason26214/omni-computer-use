@@ -1,0 +1,7 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Calculator"], "reason": "phase-3 fresh-server verification: open_application timing + clean capture"}},
+  {"tool": "open_application", "args": {"app": "Calculator"}},
+  {"tool": "wait", "args": {"duration": 1.0}},
+  {"tool": "screenshot", "args": {"save_to_disk": true}},
+  {"tool": "reload", "args": {}}
+]

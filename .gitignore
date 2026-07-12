@@ -1,0 +1,30 @@
+# Python / uv
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+
+# Generated test output (screenshots, crops, captures, results)
+tests/out*/
+
+# one-off development probes (stale paths / Win32 diagnostics) — kept locally, not shipped
+tests/dev/
+
+# Runtime logs
+logs/
+
+# OS / editor
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/
+
+# local-only AI feedback notes (not version-controlled)
+feedback/
+
+# private workspace (KANBAN / dev-log / task docs) — never in the public repo
+dev-workplace/

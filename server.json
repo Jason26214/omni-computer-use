@@ -1,0 +1,46 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Jason26214/computer-use-omni",
+  "description": "Windows computer-use MCP for the Claude Code CLI — a 1:1 replica of Claude Desktop's computer-use tool surface.",
+  "repository": {
+    "url": "https://github.com/Jason26214/computer-use-omni",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "computer-use-omni",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Max pixels in a downscaled screenshot (default 1200000, ~1.2 MP).",
+          "isRequired": false,
+          "format": "string",
+          "name": "COMPUTER_USE_MAX_PIXELS"
+        },
+        {
+          "description": "Mask non-allowlisted app windows in screenshots ('on'/'off', default off).",
+          "isRequired": false,
+          "format": "string",
+          "name": "COMPUTER_USE_MASKING"
+        },
+        {
+          "description": "Block input when the frontmost app is not allowlisted ('on'/'off', default off).",
+          "isRequired": false,
+          "format": "string",
+          "name": "COMPUTER_USE_ENFORCE_FOREGROUND"
+        },
+        {
+          "description": "Register the reload hot-reload developer tool ('on'/'off', default on).",
+          "isRequired": false,
+          "format": "string",
+          "name": "COMPUTER_USE_DEV"
+        }
+      ]
+    }
+  ]
+}

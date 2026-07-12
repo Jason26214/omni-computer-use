@@ -1,0 +1,11 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Notepad"], "reason": "typing + clipboard verification", "clipboardRead": true}},
+  {"tool": "computer_batch", "args": {"actions": [
+    {"action": "left_click", "coordinate": [400, 400]},
+    {"action": "type", "text": "Hello from CCC computer-use MCP! 你好世界 123+456=579 🌟"},
+    {"action": "key", "text": "ctrl+a"},
+    {"action": "key", "text": "ctrl+c"},
+    {"action": "screenshot"}
+  ]}},
+  {"tool": "read_clipboard", "args": {}}
+]

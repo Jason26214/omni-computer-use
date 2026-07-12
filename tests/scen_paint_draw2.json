@@ -1,0 +1,11 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Paint"], "reason": "draw smiley v2 at detected canvas coords"}},
+  {"tool": "computer_batch", "args": {"actions": [
+    {"action": "left_click_drag", "start_coordinate": [666, 358], "coordinate": [674, 378]},
+    {"action": "left_click_drag", "start_coordinate": [710, 358], "coordinate": [718, 378]},
+    {"action": "left_click_drag", "start_coordinate": [656, 438], "coordinate": [691, 476]},
+    {"action": "left_click_drag", "start_coordinate": [691, 476], "coordinate": [726, 438]},
+    {"action": "wait", "duration": 0.4},
+    {"action": "screenshot"}
+  ]}}
+]

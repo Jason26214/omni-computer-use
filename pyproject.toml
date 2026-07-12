@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "computer-use-omni"
+version = "1.0.0"
+description = "Windows computer-use MCP for the Claude Code CLI — a 1:1 replica of Claude Desktop's computer-use tool surface."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Jason26214" }]
+keywords = ["mcp", "computer-use", "windows", "automation", "claude", "desktop"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Desktop Environment",
+]
+dependencies = [
+    "mcp",
+    "mss",
+    "pillow",
+    "pywin32",
+]
+
+[project.urls]
+Homepage = "https://github.com/Jason26214/computer-use-omni"
+Repository = "https://github.com/Jason26214/computer-use-omni"
+Issues = "https://github.com/Jason26214/computer-use-omni/issues"
+
+[project.scripts]
+computer-use-omni = "computer_use_omni.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/computer_use_omni"]

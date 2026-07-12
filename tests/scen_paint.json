@@ -1,0 +1,8 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Paint"], "reason": "drawing test"}},
+  {"tool": "open_application", "args": {"app": "Paint"}},
+  {"tool": "wait", "args": {"duration": 1.8}},
+  {"tool": "key", "args": {"text": "win+Up"}},
+  {"tool": "wait", "args": {"duration": 0.8}},
+  {"tool": "screenshot", "args": {}}
+]

@@ -1,0 +1,11 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Paint"], "reason": "draw a smiley with drags"}},
+  {"tool": "computer_batch", "args": {"actions": [
+    {"action": "left_click_drag", "start_coordinate": [503, 278], "coordinate": [509, 292]},
+    {"action": "left_click_drag", "start_coordinate": [529, 278], "coordinate": [535, 292]},
+    {"action": "left_click_drag", "start_coordinate": [497, 335], "coordinate": [518, 360]},
+    {"action": "left_click_drag", "start_coordinate": [518, 360], "coordinate": [541, 335]},
+    {"action": "wait", "duration": 0.3},
+    {"action": "screenshot"}
+  ]}}
+]

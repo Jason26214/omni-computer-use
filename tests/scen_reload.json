@@ -1,0 +1,5 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Notepad"], "reason": "reload re-apply test"}},
+  {"tool": "reload", "args": {}},
+  {"tool": "list_granted_applications", "args": {}}
+]

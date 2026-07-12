@@ -1,0 +1,6 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Notepad"], "reason": "typing verification"}},
+  {"tool": "open_application", "args": {"app": "Notepad"}},
+  {"tool": "key", "args": {"text": "win+Up"}},
+  {"tool": "screenshot", "args": {}}
+]

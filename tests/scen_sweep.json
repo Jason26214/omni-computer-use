@@ -1,0 +1,17 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Notepad"], "reason": "tool sweep", "clipboardRead": true, "clipboardWrite": true}},
+  {"tool": "list_granted_applications", "args": {}},
+  {"tool": "write_clipboard", "args": {"text": "roundtrip 往返 #42"}},
+  {"tool": "read_clipboard", "args": {}},
+  {"tool": "switch_display", "args": {"display": "auto"}},
+  {"tool": "computer_batch", "args": {"actions": [
+    {"action": "left_click", "coordinate": [400, 400]},
+    {"action": "key", "text": "ctrl+a"},
+    {"action": "key", "text": "delete"},
+    {"action": "hold_key", "text": "a", "duration": 0.6},
+    {"action": "key", "text": "ctrl+a"},
+    {"action": "key", "text": "ctrl+c"}
+  ]}},
+  {"tool": "read_clipboard", "args": {}},
+  {"tool": "zoom", "args": {"region": [0, 0, 400, 300]}}
+]

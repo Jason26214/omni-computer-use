@@ -1,0 +1,4 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Paint"], "reason": "paint canvas screenshot"}},
+  {"tool": "screenshot", "args": {}}
+]

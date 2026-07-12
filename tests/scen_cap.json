@@ -1,0 +1,4 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Notepad"], "reason": "capture parity test"}},
+  {"tool": "screenshot", "args": {}}
+]

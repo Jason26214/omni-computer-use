@@ -1,0 +1,8 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Notepad"], "reason": "verify notepad content", "clipboardRead": true}},
+  {"tool": "left_click", "args": {"coordinate": [690, 450]}},
+  {"tool": "key", "args": {"text": "ctrl+a"}},
+  {"tool": "key", "args": {"text": "ctrl+c"}},
+  {"tool": "wait", "args": {"duration": 0.2}},
+  {"tool": "read_clipboard", "args": {}}
+]

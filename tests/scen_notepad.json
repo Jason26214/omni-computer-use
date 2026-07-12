@@ -1,0 +1,11 @@
+[
+  {"tool": "request_access", "args": {"apps": ["Notepad"], "reason": "chinese poem typing test"}},
+  {"tool": "open_application", "args": {"app": "Notepad"}},
+  {"tool": "wait", "args": {"duration": 1.2}},
+  {"tool": "key", "args": {"text": "win+Up"}},
+  {"tool": "wait", "args": {"duration": 0.6}},
+  {"tool": "left_click", "args": {"coordinate": [690, 450]}},
+  {"tool": "type", "args": {"text": "床前明月光，疑是地上霜。\n举头望明月，低头思故乡。\n        —— 李白《静夜思》 🌙✨\n\nTyped by computer-use-omni, from inside CCC. 我会打字了！"}},
+  {"tool": "wait", "args": {"duration": 0.3}},
+  {"tool": "screenshot", "args": {}}
+]
