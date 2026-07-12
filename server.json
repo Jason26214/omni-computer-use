@@ -35,7 +35,7 @@
           "name": "COMPUTER_USE_ENFORCE_FOREGROUND"
         },
         {
-          "description": "Register the reload hot-reload developer tool ('on'/'off', default on).",
+          "description": "Register the reload hot-reload developer tool ('on'/'off', default off).",
           "isRequired": false,
           "format": "string",
           "name": "COMPUTER_USE_DEV"
