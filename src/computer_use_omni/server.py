@@ -23,6 +23,7 @@ import threading
 from typing import Any
 
 from mcp.server.fastmcp import FastMCP
+from mcp.types import ToolAnnotations
 
 from . import apps, batch, clipboard, config, inputs, logsetup, screen
 from .permissions import ALLOWLIST
@@ -192,11 +193,34 @@ def _logged(fn):
     return wrapper
 
 
-def _ltool():
-    """``@_ltool()`` + automatic call/error logging (signature preserved)."""
+def _ltool(
+    title: str,
+    *,
+    read_only: bool = False,
+    destructive: bool = False,
+    idempotent: bool | None = None,
+):
+    """Register a tool with MCP annotations + automatic call/error logging.
+
+    ``title`` is the human-readable display name. Exactly one of ``read_only`` /
+    ``destructive`` must be set, so every tool carries the ``readOnlyHint`` /
+    ``destructiveHint`` the Claude connectors directory uses for auto-permissions
+    (read-only tools may run without a per-call prompt; destructive ones — those
+    that inject input or otherwise change the machine/session — always prompt).
+    """
+    if read_only == destructive:
+        raise ValueError(
+            f"tool {title!r}: set exactly one of read_only / destructive"
+        )
+    annotations = ToolAnnotations(
+        title=title,
+        readOnlyHint=True if read_only else False,
+        destructiveHint=True if destructive else None,
+        idempotentHint=idempotent,
+    )
 
     def deco(fn):
-        return app.tool()(_logged(fn))
+        return app.tool(title=title, annotations=annotations)(_logged(fn))
 
     return deco
 
@@ -206,7 +230,7 @@ def _ltool():
 # --------------------------------------------------------------------------- #
 
 
-@_ltool()
+@_ltool("Request Application Access", destructive=True)
 def request_access(
     apps: list[str],
     reason: str,
@@ -236,13 +260,13 @@ def request_access(
     return result
 
 
-@_ltool()
+@_ltool("List Granted Applications", read_only=True)
 def list_granted_applications() -> dict:
     """List the applications currently granted in this session, plus grant flags."""
     return ALLOWLIST.list_granted()
 
 
-@_ltool()
+@_ltool("Request Teach Access", destructive=True)
 def request_teach_access(apps: list[str], reason: str) -> dict:
     """Request teach-mode access (phase-2 stub).
 
@@ -256,7 +280,7 @@ def request_teach_access(apps: list[str], reason: str) -> dict:
     }
 
 
-@_ltool()
+@_ltool("End Session", destructive=True)
 def deactivate() -> str:
     """End the computer-use session WITHOUT killing the MCP process.
 
@@ -292,7 +316,7 @@ def deactivate() -> str:
 # --------------------------------------------------------------------------- #
 
 
-@_ltool()
+@_ltool("Take Screenshot", read_only=True)
 def screenshot(save_to_disk: bool = False) -> list:
     """Capture the active monitor and return a PNG image (windows of non-allowlisted apps masked).
 
@@ -302,7 +326,7 @@ def screenshot(save_to_disk: bool = False) -> list:
     return batch.do_screenshot(save_to_disk)
 
 
-@_ltool()
+@_ltool("Preview All Monitors", read_only=True)
 def display_overview(save_to_disk: bool = False) -> list:
     """Return ONE composite image of ALL monitors, laid out as arranged on the virtual desktop.
 
@@ -314,13 +338,13 @@ def display_overview(save_to_disk: bool = False) -> list:
     return batch.do_overview(save_to_disk)
 
 
-@_ltool()
+@_ltool("Zoom Into Region", read_only=True)
 def zoom(region: list[int], save_to_disk: bool = False) -> list:
     """Crop a region [x0, y0, x1, y1] of the screen (image space) and return it upscaled 2x. Read-only."""
     return batch.do_zoom(region, save_to_disk)
 
 
-@_ltool()
+@_ltool("Switch Target Monitor", read_only=True)
 def switch_display(display: str) -> str:
     """Switch which monitor subsequent screenshots capture (and clicks target).
 
@@ -338,7 +362,7 @@ def switch_display(display: str) -> str:
     return f"Active display: {cur.name} ({cur.width}x{cur.height}). Monitors: {listing}"
 
 
-@_ltool()
+@_ltool("Get Cursor Position", read_only=True)
 def cursor_position() -> dict:
     """Return the current cursor position in image-space coordinates of the last screenshot."""
     px, py = inputs.get_cursor_pos()
@@ -352,13 +376,13 @@ def cursor_position() -> dict:
 # --------------------------------------------------------------------------- #
 
 
-@_ltool()
+@_ltool("Move Mouse", destructive=True)
 def mouse_move(coordinate: list[int]) -> list:
     """Move the mouse to an image-space coordinate [x, y]."""
     return batch.run_action({"action": "mouse_move", "coordinate": coordinate})
 
 
-@_ltool()
+@_ltool("Left Click", destructive=True)
 def left_click(coordinate: list[int], text: str | None = None) -> list:
     """Left-click at an image-space coordinate; optional 'text' holds modifiers (e.g. 'ctrl+shift')."""
     return batch.run_action(
@@ -366,7 +390,7 @@ def left_click(coordinate: list[int], text: str | None = None) -> list:
     )
 
 
-@_ltool()
+@_ltool("Right Click", destructive=True)
 def right_click(coordinate: list[int], text: str | None = None) -> list:
     """Right-click at an image-space coordinate; optional 'text' holds modifiers."""
     return batch.run_action(
@@ -374,7 +398,7 @@ def right_click(coordinate: list[int], text: str | None = None) -> list:
     )
 
 
-@_ltool()
+@_ltool("Middle Click", destructive=True)
 def middle_click(coordinate: list[int], text: str | None = None) -> list:
     """Middle-click at an image-space coordinate; optional 'text' holds modifiers."""
     return batch.run_action(
@@ -382,7 +406,7 @@ def middle_click(coordinate: list[int], text: str | None = None) -> list:
     )
 
 
-@_ltool()
+@_ltool("Double-Click", destructive=True)
 def double_click(coordinate: list[int], text: str | None = None) -> list:
     """Double-click at an image-space coordinate; optional 'text' holds modifiers."""
     return batch.run_action(
@@ -390,7 +414,7 @@ def double_click(coordinate: list[int], text: str | None = None) -> list:
     )
 
 
-@_ltool()
+@_ltool("Triple-Click", destructive=True)
 def triple_click(coordinate: list[int], text: str | None = None) -> list:
     """Triple-click at an image-space coordinate; optional 'text' holds modifiers."""
     return batch.run_action(
@@ -398,7 +422,7 @@ def triple_click(coordinate: list[int], text: str | None = None) -> list:
     )
 
 
-@_ltool()
+@_ltool("Click and Drag", destructive=True)
 def left_click_drag(
     coordinate: list[int], start_coordinate: list[int] | None = None
 ) -> list:
@@ -412,19 +436,19 @@ def left_click_drag(
     )
 
 
-@_ltool()
+@_ltool("Press Left Mouse Button", destructive=True)
 def left_mouse_down() -> list:
     """Press and hold the left mouse button at the current cursor position."""
     return batch.run_action({"action": "left_mouse_down"})
 
 
-@_ltool()
+@_ltool("Release Left Mouse Button", destructive=True)
 def left_mouse_up() -> list:
     """Release the left mouse button at the current cursor position."""
     return batch.run_action({"action": "left_mouse_up"})
 
 
-@_ltool()
+@_ltool("Scroll", destructive=True)
 def scroll(
     coordinate: list[int], scroll_direction: str, scroll_amount: int
 ) -> list:
@@ -444,13 +468,13 @@ def scroll(
 # --------------------------------------------------------------------------- #
 
 
-@_ltool()
+@_ltool("Press Key Chord", destructive=True)
 def key(text: str, repeat: int = 1) -> list:
     """Press a key chord (e.g. 'Return', 'ctrl+a', 'alt+F4'), optionally repeated."""
     return batch.run_action({"action": "key", "text": text, "repeat": repeat})
 
 
-@_ltool()
+@_ltool("Hold Key", destructive=True)
 def hold_key(text: str, duration: float) -> list:
     """Hold a key chord down for 'duration' seconds, then release it."""
     return batch.run_action(
@@ -458,7 +482,7 @@ def hold_key(text: str, duration: float) -> list:
     )
 
 
-@_ltool()
+@_ltool("Type Text", destructive=True)
 def type(text: str) -> list:
     """Type Unicode text at the current focus (layout-independent, supports CJK/emoji)."""
     return batch.run_action({"action": "type", "text": text})
@@ -469,13 +493,13 @@ def type(text: str) -> list:
 # --------------------------------------------------------------------------- #
 
 
-@_ltool()
+@_ltool("Wait", read_only=True)
 def wait(duration: float) -> list:
     """Wait for 'duration' seconds."""
     return batch.run_action({"action": "wait", "duration": duration})
 
 
-@_ltool()
+@_ltool("Open Application", destructive=True)
 def open_application(app: str) -> str:
     """Resolve and launch an application, bringing it to the foreground.
 
@@ -529,7 +553,7 @@ def open_application(app: str) -> str:
     return f'Opened "{info.display}".' + screen.cross_monitor_hint(0)
 
 
-@_ltool()
+@_ltool("Read Clipboard", read_only=True)
 def read_clipboard() -> str:
     """Read text from the system clipboard (requires clipboardRead grant)."""
     if not ALLOWLIST.clipboard_read:
@@ -540,7 +564,7 @@ def read_clipboard() -> str:
     return clipboard.read_text()
 
 
-@_ltool()
+@_ltool("Write Clipboard", destructive=True)
 def write_clipboard(text: str) -> str:
     """Write text to the system clipboard (requires clipboardWrite grant)."""
     if not ALLOWLIST.clipboard_write:
@@ -557,7 +581,7 @@ def write_clipboard(text: str) -> str:
 # --------------------------------------------------------------------------- #
 
 
-@_ltool()
+@_ltool("Run Action Batch", destructive=True)
 def computer_batch(actions: list[dict]) -> list:
     """Run a list of actions sequentially against the pre-batch screenshot's coordinates.
 
@@ -566,7 +590,7 @@ def computer_batch(actions: list[dict]) -> list:
     return batch.run_batch(actions)
 
 
-@_ltool()
+@_ltool("Teach Step", destructive=True)
 def teach_step(
     explanation: str | None = None,
     next_preview: str | None = None,
@@ -577,7 +601,7 @@ def teach_step(
     return batch.teach_step(explanation, next_preview, actions, anchor)
 
 
-@_ltool()
+@_ltool("Teach Batch", destructive=True)
 def teach_batch(steps: list[dict]) -> list:
     """Teach-mode batch (phase-2 stub): executes each step's actions, then returns a final screenshot."""
     return batch.teach_batch(steps)
@@ -612,7 +636,13 @@ def _register_reload_tool() -> None:
     tool surface stays at 27 when DEV is off. Called once at import time.
     """
 
-    @app.tool(name="reload")
+    @app.tool(
+        name="reload",
+        title="Reload Modules (dev)",
+        annotations=ToolAnnotations(
+            title="Reload Modules (dev)", readOnlyHint=False, destructiveHint=True
+        ),
+    )
     def reload() -> str:
         """Hot-reload the logic modules in-process (developer tool).
 
