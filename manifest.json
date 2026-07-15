@@ -1,0 +1,172 @@
+{
+  "manifest_version": "0.4",
+  "name": "computer-use-omni",
+  "display_name": "Computer Use Omni",
+  "version": "1.0.0",
+  "description": "Anthropic's computer-use tool surface, for Windows.",
+  "long_description": "computer-use-omni is a faithful 1:1 replica of Anthropic's official computer-use tool surface, shipped as a plain MCP server for Windows. Same tool names, same parameters, same coordinate semantics — an agent that already knows the official tool works here unchanged.\n\n29 tools cover the full surface: screenshots, mouse (click / drag / scroll), keyboard (Unicode typing, key chords), clipboard, multi-monitor capture with self-describing screenshots, and honest application launching that reports what actually happened instead of fire-and-forget.\n\nWhat makes it different from the built-in computer use: every granted app runs at full tier. The agent can type into IDEs and terminals, and open_application accepts a full path to a loose .exe — so it can launch the app you are currently building, click through it, type into it, and verify behavior before you ship. That is the workflow it was built for. Full power, your responsibility.\n\nIt reproduces Claude Desktop's on-screen affordances (orange edge glow, \"Claude is using your computer\" pill), guards against keyboard self-harm (keystrokes are blocked when the controlling window is frontmost), and ships a 16-scenario end-to-end test suite run through a fresh MCP process. Runs entirely locally: no telemetry, no accounts, no server side. MIT licensed, in daily use since 2026-06.",
+  "author": {
+    "name": "Jason26214",
+    "url": "https://github.com/Jason26214"
+  },
+  "homepage": "https://github.com/Jason26214/computer-use-omni",
+  "documentation": "https://github.com/Jason26214/computer-use-omni",
+  "support": "https://github.com/Jason26214/computer-use-omni/issues",
+  "icon": "icon.png",
+  "server": {
+    "type": "uv",
+    "entry_point": "src/computer_use_omni/__main__.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "${__dirname}",
+        "computer-use-omni"
+      ],
+      "env": {}
+    }
+  },
+  "tools": [
+    {
+      "name": "computer_batch",
+      "description": "Run a list of actions sequentially against the pre-batch screenshot's coordinates."
+    },
+    {
+      "name": "cursor_position",
+      "description": "Return the current cursor position in image-space coordinates of the last screenshot."
+    },
+    {
+      "name": "deactivate",
+      "description": "End the computer-use session WITHOUT killing the MCP process."
+    },
+    {
+      "name": "display_overview",
+      "description": "Return ONE composite image of ALL monitors, laid out as arranged on the virtual desktop."
+    },
+    {
+      "name": "double_click",
+      "description": "Double-click at an image-space coordinate; optional 'text' holds modifiers."
+    },
+    {
+      "name": "hold_key",
+      "description": "Hold a key chord down for 'duration' seconds, then release it."
+    },
+    {
+      "name": "key",
+      "description": "Press a key chord (e.g."
+    },
+    {
+      "name": "left_click",
+      "description": "Left-click at an image-space coordinate; optional 'text' holds modifiers (e.g."
+    },
+    {
+      "name": "left_click_drag",
+      "description": "Drag with the left button to 'coordinate'; start at 'start_coordinate' or the current cursor."
+    },
+    {
+      "name": "left_mouse_down",
+      "description": "Press and hold the left mouse button at the current cursor position."
+    },
+    {
+      "name": "left_mouse_up",
+      "description": "Release the left mouse button at the current cursor position."
+    },
+    {
+      "name": "list_granted_applications",
+      "description": "List the applications currently granted in this session, plus grant flags."
+    },
+    {
+      "name": "middle_click",
+      "description": "Middle-click at an image-space coordinate; optional 'text' holds modifiers."
+    },
+    {
+      "name": "mouse_move",
+      "description": "Move the mouse to an image-space coordinate [x, y]."
+    },
+    {
+      "name": "open_application",
+      "description": "Resolve and launch an application, bringing it to the foreground."
+    },
+    {
+      "name": "read_clipboard",
+      "description": "Read text from the system clipboard (requires clipboardRead grant)."
+    },
+    {
+      "name": "request_access",
+      "description": "Request access to applications (and optional clipboard/system-key capabilities)."
+    },
+    {
+      "name": "request_teach_access",
+      "description": "Request teach-mode access (phase-2 stub)."
+    },
+    {
+      "name": "right_click",
+      "description": "Right-click at an image-space coordinate; optional 'text' holds modifiers."
+    },
+    {
+      "name": "screenshot",
+      "description": "Capture the active monitor and return a PNG image (windows of non-allowlisted apps masked)."
+    },
+    {
+      "name": "scroll",
+      "description": "Scroll at an image-space coordinate."
+    },
+    {
+      "name": "switch_display",
+      "description": "Switch which monitor subsequent screenshots capture (and clicks target)."
+    },
+    {
+      "name": "teach_batch",
+      "description": "Teach-mode batch (phase-2 stub): executes each step's actions, then returns a final screenshot."
+    },
+    {
+      "name": "teach_step",
+      "description": "Teach-mode step (phase-2 stub): executes the actions, then returns a screenshot."
+    },
+    {
+      "name": "triple_click",
+      "description": "Triple-click at an image-space coordinate; optional 'text' holds modifiers."
+    },
+    {
+      "name": "type",
+      "description": "Type Unicode text at the current focus (layout-independent, supports CJK/emoji)."
+    },
+    {
+      "name": "wait",
+      "description": "Wait for 'duration' seconds."
+    },
+    {
+      "name": "write_clipboard",
+      "description": "Write text to the system clipboard (requires clipboardWrite grant)."
+    },
+    {
+      "name": "zoom",
+      "description": "Crop a region [x0, y0, x1, y1] of the screen (image space) and return it upscaled 2x."
+    }
+  ],
+  "tools_generated": false,
+  "keywords": [
+    "computer-use",
+    "windows",
+    "desktop-automation",
+    "gui-automation",
+    "claude",
+    "claude-code",
+    "screenshots",
+    "automation",
+    "gui-testing"
+  ],
+  "license": "MIT",
+  "privacy_policies": [
+    "https://github.com/Jason26214/computer-use-omni#privacy-policy"
+  ],
+  "compatibility": {
+    "platforms": [
+      "win32"
+    ],
+    "runtimes": {
+      "python": ">=3.11"
+    }
+  }
+}

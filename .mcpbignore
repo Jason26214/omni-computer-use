@@ -1,0 +1,24 @@
+# Files excluded from the .mcpb desktop-extension bundle.
+# Runtime needs: manifest.json, icon.png, pyproject.toml, uv.lock, README.md,
+# LICENSE, src/ — everything else below is dev-only or generated.
+.venv/
+.git/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+logs/
+tests/
+feedback/
+dev-workplace/
+.gitignore
+.mcpbignore
+SPEC.md
+server.json
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/
