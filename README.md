@@ -129,6 +129,18 @@ uv run python tests/drive.py tests/scen_calc.json     # compute 7×8 by clicks, 
 
 Python ≥ 3.11, packaged with [uv], src layout, hatchling. [`mcp`] Python SDK (FastMCP) over stdio; [`mss`] for capture; [`pillow`] for imaging; [`pywin32`] + `ctypes` for DPI awareness, window / clipboard / foreground access, and raw Win32 `SendInput` mouse/keyboard injection.
 
+## Privacy Policy
+
+computer-use-omni runs entirely on your machine and has no server side.
+
+- **Data collection: none.** The source imports no networking libraries and contains no telemetry, analytics, or crash reporting. Nothing is ever uploaded, anywhere.
+- **Usage and storage.** Screenshots, clipboard contents, and input events are processed in memory on your machine and returned only over local stdio to the MCP client you connected the server to. The only thing written to disk is a rotating local log (`mcp.log`, tool calls and tracebacks) under `%LOCALAPPDATA%\computer-use-omni\logs` — configurable via `COMPUTER_USE_LOG_DIR`, deletable at any time.
+- **Third-party sharing: none.** No accounts, no external services, no third parties.
+- **Data retention.** Log rotation on your own disk is the only retention there is; you control it.
+- **Contact.** Privacy questions: [open a GitHub issue](https://github.com/Jason26214/computer-use-omni/issues).
+
+Note that whatever MCP client you attach (e.g. Claude Desktop, the Claude Code CLI) receives the screenshots and text this server captures, and is governed by its own privacy policy.
+
 ## License
 
 MIT © Jason26214
