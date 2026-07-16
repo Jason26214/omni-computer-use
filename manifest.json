@@ -54,11 +54,11 @@
     },
     {
       "name": "key",
-      "description": "Press a key chord (e.g."
+      "description": "Press a key chord (e.g. 'Return', 'ctrl+a', 'alt+F4'), optionally repeated."
     },
     {
       "name": "left_click",
-      "description": "Left-click at an image-space coordinate; optional 'text' holds modifiers (e.g."
+      "description": "Left-click at an image-space coordinate; optional 'text' holds modifiers (e.g. 'ctrl+shift')."
     },
     {
       "name": "left_click_drag",
@@ -110,7 +110,7 @@
     },
     {
       "name": "scroll",
-      "description": "Scroll at an image-space coordinate."
+      "description": "Scroll at an image-space coordinate. Direction: up/down/left/right; amount in wheel ticks."
     },
     {
       "name": "switch_display",
@@ -142,7 +142,7 @@
     },
     {
       "name": "zoom",
-      "description": "Crop a region [x0, y0, x1, y1] of the screen (image space) and return it upscaled 2x."
+      "description": "Crop a region [x0, y0, x1, y1] of the screen (image space) and return it upscaled 2x. Read-only."
     }
   ],
   "tools_generated": false,
