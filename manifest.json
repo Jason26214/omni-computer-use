@@ -1,7 +1,7 @@
 {
   "manifest_version": "0.4",
   "name": "computer-use-omni",
-  "display_name": "Omni Computer Use",
+  "display_name": "omni-computer-use",
   "version": "1.0.0",
   "description": "Anthropic's computer-use tool surface, for Windows.",
   "long_description": "computer-use-omni is a faithful 1:1 replica of Anthropic's official computer-use tool surface, shipped as a plain MCP server for Windows. Same tool names, same parameters, same coordinate semantics — an agent that already knows the official tool works here unchanged.\n\n29 tools cover the full surface: screenshots, mouse (click / drag / scroll), keyboard (Unicode typing, key chords), clipboard, multi-monitor capture with self-describing screenshots, and honest application launching that reports what actually happened instead of fire-and-forget.\n\nWhat makes it different from the built-in computer use: every granted app runs at full tier. The agent can type into IDEs and terminals, and open_application accepts a full path to a loose .exe — so it can launch the app you are currently building, click through it, type into it, and verify behavior before you ship. That is the workflow it was built for. Full power, your responsibility.\n\nIt reproduces Claude Desktop's on-screen affordances (orange edge glow, \"Claude is using your computer\" pill), guards against keyboard self-harm (keystrokes are blocked when the controlling window is frontmost), and ships a 16-scenario end-to-end test suite run through a fresh MCP process. Runs entirely locally: no telemetry, no accounts, no server side. MIT licensed, in daily use since 2026-06.",
