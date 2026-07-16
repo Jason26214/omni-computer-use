@@ -1,6 +1,6 @@
 """Keyboard injection via Win32 ``SendInput`` (key chords, holds, Unicode typing).
 
-Builds on :mod:`computer_use_omni.keymap` for name->VK resolution and chord
+Builds on :mod:`omni_computer_use.keymap` for name->VK resolution and chord
 parsing. Modifier handling presses keys down in order and releases them in
 reverse, so nested chords behave correctly.
 

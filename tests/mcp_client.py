@@ -1,4 +1,4 @@
-"""Self-contained MCP smoke client for computer-use-omni.
+"""Self-contained MCP smoke client for omni-computer-use.
 
 Launches the server as a subprocess and drives it over stdio using the official
 ``mcp`` client SDK, exercising the core tool surface end to end:
@@ -102,7 +102,7 @@ async def main() -> int:
             "run",
             "python",
             "-m",
-            "computer_use_omni",
+            "omni_computer_use",
         ],
     )
 

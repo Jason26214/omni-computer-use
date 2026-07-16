@@ -1,4 +1,4 @@
-# computer-use-omni
+# omni-computer-use
 
 A faithful **1:1 replica of Anthropic's official `computer-use` tool surface** — shipped as a plain **MCP server** for Windows. It lets the **Claude Code CLI** (or any MCP client) drive the Windows desktop the way Claude Desktop's built-in computer-use does: screenshots, mouse / keyboard / scroll / drag / batch input, clipboard, multi-monitor, and application launch.
 
@@ -13,14 +13,14 @@ Requires Windows and Python 3.11+ (uv / uvx fetch Python for you).
 Run standalone:
 
 ```powershell
-uvx computer-use-omni
+uvx omni-computer-use
 ```
 
 Add to the Claude Code CLI:
 
 ```powershell
-claude mcp add computer-use-omni -s user -- uvx computer-use-omni
-claude mcp list   # expect: computer-use-omni … ✓ Connected
+claude mcp add omni-computer-use -s user -- uvx omni-computer-use
+claude mcp list   # expect: omni-computer-use … ✓ Connected
 ```
 
 Or in Claude Desktop's `claude_desktop_config.json`:
@@ -28,7 +28,7 @@ Or in Claude Desktop's `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "computer-use-omni": { "command": "uvx", "args": ["computer-use-omni"] }
+    "omni-computer-use": { "command": "uvx", "args": ["omni-computer-use"] }
   }
 }
 ```
@@ -100,7 +100,7 @@ A CLI has no permission GUI, so `request_access` **auto-grants** resolvable apps
 | `COMPUTER_USE_ENFORCE_FOREGROUND` | `off` | Block input when the frontmost app isn't allowlisted. |
 | `COMPUTER_USE_AUTOGRANT` | `on` | Auto-grant resolvable apps on `request_access`. |
 | `COMPUTER_USE_DEV` | `off` | Register the developer `reload` hot-reload tool (on → 30 tools). |
-| `COMPUTER_USE_LOG_DIR` | `%LOCALAPPDATA%\computer-use-omni\logs` | Directory for the rotating `mcp.log` (tool calls + tracebacks). |
+| `COMPUTER_USE_LOG_DIR` | `%LOCALAPPDATA%\omni-computer-use\logs` | Directory for the rotating `mcp.log` (tool calls + tracebacks). |
 | `COMPUTER_USE_GLOW` | `on` | Static orange edge glow while a session is active. |
 | `COMPUTER_USE_SHRINK_TERMINAL` | `on` | Shrink the controlling window to the top-right corner. |
 | `COMPUTER_USE_HIDE_CONTROLLING` | `on` | Park the controlling window off-screen during captures. |
@@ -131,13 +131,13 @@ Python ≥ 3.11, packaged with [uv], src layout, hatchling. [`mcp`] Python SDK (
 
 ## Privacy Policy
 
-computer-use-omni runs entirely on your machine and has no server side.
+omni-computer-use runs entirely on your machine and has no server side.
 
 - **Data collection: none.** The source imports no networking libraries and contains no telemetry, analytics, or crash reporting. Nothing is ever uploaded, anywhere.
-- **Usage and storage.** Screenshots, clipboard contents, and input events are processed in memory on your machine and returned only over local stdio to the MCP client you connected the server to. The only thing written to disk is a rotating local log (`mcp.log`, tool calls and tracebacks) under `%LOCALAPPDATA%\computer-use-omni\logs` — configurable via `COMPUTER_USE_LOG_DIR`, deletable at any time.
+- **Usage and storage.** Screenshots, clipboard contents, and input events are processed in memory on your machine and returned only over local stdio to the MCP client you connected the server to. The only thing written to disk is a rotating local log (`mcp.log`, tool calls and tracebacks) under `%LOCALAPPDATA%\omni-computer-use\logs` — configurable via `COMPUTER_USE_LOG_DIR`, deletable at any time.
 - **Third-party sharing: none.** No accounts, no external services, no third parties.
 - **Data retention.** Log rotation on your own disk is the only retention there is; you control it.
-- **Contact.** Privacy questions: [open a GitHub issue](https://github.com/Jason26214/computer-use-omni/issues).
+- **Contact.** Privacy questions: [open a GitHub issue](https://github.com/Jason26214/omni-computer-use/issues).
 
 Note that whatever MCP client you attach (e.g. Claude Desktop, the Claude Code CLI) receives the screenshots and text this server captures, and is governed by its own privacy policy.
 
@@ -151,4 +151,4 @@ MIT © Jason26214
 [`pillow`]: https://python-pillow.org/
 [`pywin32`]: https://github.com/mhammond/pywin32
 
-<!-- mcp-name: io.github.Jason26214/computer-use-omni -->
+<!-- mcp-name: io.github.Jason26214/omni-computer-use -->

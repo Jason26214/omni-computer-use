@@ -1,4 +1,4 @@
-"""Entry point for ``python -m computer_use_omni`` and the console script.
+"""Entry point for ``python -m omni_computer_use`` and the console script.
 
 Sets per-monitor DPI awareness as early as possible (before any capture or
 coordinate math happens), then starts the FastMCP server over stdio.

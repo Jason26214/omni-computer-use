@@ -62,7 +62,7 @@ class Allowlist:
     ) -> dict:
         """Grant access to apps (autogrant) and merge capability flags.
 
-        For each requested name, calls :func:`computer_use_omni.apps.resolve_app`.
+        For each requested name, calls :func:`omni_computer_use.apps.resolve_app`.
         Resolved apps are added as :class:`Granted` with ``tier='full'`` and
         ``granted_at=epoch_ms()``; unresolved names are collected under
         ``notInstalled``. The clipboard / system-key-combo flags are OR-merged
@@ -91,8 +91,8 @@ class Allowlist:
                 }
         """
         # Lazy import to avoid an import cycle (apps -> permissions is possible).
-        from computer_use_omni import apps as _apps
-        from computer_use_omni import config as _config
+        from omni_computer_use import apps as _apps
+        from omni_computer_use import config as _config
 
         granted_entries: list[dict] = []
         not_installed: list[dict] = []
@@ -210,7 +210,7 @@ class Allowlist:
         UWP app even though its grant carries an empty ``exe``.
 
         Args:
-            info: An :class:`computer_use_omni.apps.AppInfo`-like object exposing
+            info: An :class:`omni_computer_use.apps.AppInfo`-like object exposing
                 ``bundle_id`` and ``exe`` attributes.
 
         Returns:

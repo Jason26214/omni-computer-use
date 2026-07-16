@@ -7,7 +7,7 @@ server tools and by ``computer_batch``. A single action is a dict like::
 
 All coordinates are IMAGE-space of the most recent screenshot (the one taken
 *before* the batch began) and are mapped to physical pixels via
-:mod:`computer_use_omni.screen`.
+:mod:`omni_computer_use.screen`.
 
 ``run_batch`` executes a list of actions sequentially, stops on the first
 error, and interleaves screenshot/zoom image content into its output. The

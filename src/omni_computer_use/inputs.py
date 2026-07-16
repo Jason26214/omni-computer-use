@@ -2,7 +2,7 @@
 
 All functions here operate in **physical** (virtual-desktop) pixel coordinates.
 Callers must convert image-space coordinates with
-:func:`computer_use_omni.screen.image_to_physical` before calling in.
+:func:`omni_computer_use.screen.image_to_physical` before calling in.
 
 Absolute mouse moves are performed by normalizing physical coordinates to the
 ``0..65535`` range over the whole virtual screen and sending
@@ -10,7 +10,7 @@ Absolute mouse moves are performed by normalizing physical coordinates to the
 which is the only reliable way to hit an exact pixel across multiple monitors.
 
 Modifier keys for :func:`click` are pressed/released through
-:mod:`computer_use_omni.keyboard` so that chord semantics stay consistent with
+:mod:`omni_computer_use.keyboard` so that chord semantics stay consistent with
 the keyboard layer.
 """
 

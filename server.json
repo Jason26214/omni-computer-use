@@ -1,16 +1,16 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.Jason26214/computer-use-omni",
+  "name": "io.github.Jason26214/omni-computer-use",
   "description": "A 1:1 replica of Claude Desktop's computer-use tool surface, for Windows and the Claude Code CLI.",
   "repository": {
-    "url": "https://github.com/Jason26214/computer-use-omni",
+    "url": "https://github.com/Jason26214/omni-computer-use",
     "source": "github"
   },
   "version": "1.0.0",
   "packages": [
     {
       "registryType": "pypi",
-      "identifier": "computer-use-omni",
+      "identifier": "omni-computer-use",
       "version": "1.0.0",
       "transport": {
         "type": "stdio"

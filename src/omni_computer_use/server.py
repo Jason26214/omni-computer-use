@@ -6,7 +6,7 @@ application, dispatching into :mod:`screen`, :mod:`inputs`, :mod:`keyboard`,
 
 Coordinate convention: every mouse/move/scroll/drag/zoom coordinate from a tool
 input is in IMAGE space of the most recent screenshot; it is mapped to physical
-pixels via :func:`computer_use_omni.screen.image_to_physical`. If no screenshot
+pixels via :func:`omni_computer_use.screen.image_to_physical`. If no screenshot
 has been taken yet, the first input action captures one to establish scale.
 
 Foreground gating is permissive by default (``ENFORCE_FOREGROUND`` off): input
@@ -29,7 +29,7 @@ from . import apps, batch, clipboard, config, inputs, logsetup, screen
 from .permissions import ALLOWLIST
 
 #: The FastMCP application instance with all 27 tools registered below.
-app = FastMCP("computer-use-omni")
+app = FastMCP("omni-computer-use")
 
 #: Persistent rotating log (<project>/logs/mcp.log). Set up once; never raises.
 _LOG_PATH = logsetup.setup()

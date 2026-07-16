@@ -1,4 +1,4 @@
-"""CDC-style computer-use visual overlay for computer-use-omni (Windows).
+"""CDC-style computer-use visual overlay for omni-computer-use (Windows).
 
 This module replicates, as closely as practical, the on-screen affordances that
 Claude Desktop (CDC) shows while its computer-use feature is active:
@@ -41,7 +41,7 @@ Public API::
 
 CLI::
 
-    python -m computer_use_omni.overlay --preview SECONDS [--no-exclude] [--no-pill]
+    python -m omni_computer_use.overlay --preview SECONDS [--no-exclude] [--no-pill]
 """
 
 from __future__ import annotations
@@ -1160,7 +1160,7 @@ def _main(argv: "list[str] | None" = None) -> int:
     import argparse
 
     parser = argparse.ArgumentParser(
-        prog="python -m computer_use_omni.overlay",
+        prog="python -m omni_computer_use.overlay",
         description="Preview the computer-use overlay glow / pill.",
     )
     parser.add_argument(

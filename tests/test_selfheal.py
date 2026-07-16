@@ -18,7 +18,7 @@ import win32con
 import win32gui
 import win32process
 
-from computer_use_omni import terminal
+from omni_computer_use import terminal
 
 CASCADIA = "CASCADIA_HOSTING_WINDOW_CLASS"
 

@@ -1,4 +1,4 @@
-# PROJECT: computer-use-omni — Windows computer-use MCP for Claude Code CLI
+# PROJECT: omni-computer-use — Windows computer-use MCP for Claude Code CLI
 
 ## GOAL
 Replicate, on Windows, the EXACT tool surface and behavior of Claude Desktop's "computer-use" MCP, so the Claude Code CLI (CCC) can drive the desktop (screenshot + mouse/keyboard/scroll/drag/batch + clipboard + app launch + multi-monitor). Must be a faithful 1:1 replica of the tool names, params and semantics.
@@ -10,32 +10,32 @@ Replicate, on Windows, the EXACT tool surface and behavior of Claude Desktop's "
 - Monitors: originally developed single-monitor; the dev rig now also has a secondary. Measured dual layout: primary = \\.\DISPLAY2 2560x1600 @(0,0) (laptop panel), secondary = \\.\DISPLAY1 2560x1440 @(2560,157) (to the RIGHT, offset down). NOTE the numbering/identity mismatch (DISPLAY1 is NOT the primary) — never assume; code must key off Monitor.primary and real geometry.
 
 ## TECH STACK (use exactly this)
-- Python (>=3.11), packaged with uv. src layout. Package name: computer_use_omni. Package name (PyPI): computer-use-omni
+- Python (>=3.11), packaged with uv. src layout. Package name: omni_computer_use. Package name (PyPI): omni-computer-use
 - MCP framework: official 'mcp' Python SDK, FastMCP API (from mcp.server.fastmcp import FastMCP). Run over stdio.
 - Screen capture: mss. Image: pillow. Window/clipboard/foreground: pywin32 (win32gui/win32process/win32api/win32clipboard) + ctypes for SendInput/DPI.
 - Input injection: raw Win32 SendInput via ctypes (NOT pyautogui) for reliable absolute coords + Unicode typing.
 - dependencies in pyproject: mcp, mss, pillow, pywin32
-- Entry: python -m computer_use_omni  (so __main__.py defines main()). Also a console_script 'computer-use-omni'.
-- The MCP will be launched by CCC like the user's existing servers: uvx computer-use-omni
+- Entry: python -m omni_computer_use  (so __main__.py defines main()). Also a console_script 'omni-computer-use'.
+- The MCP will be launched by CCC like the user's existing servers: uvx omni-computer-use
 
 ## FILE MANIFEST (create ALL of these)
 pyproject.toml
 README.md
 SPEC.md                  (copy of this spec, authoritative contract)
-src/computer_use_omni/__init__.py
-src/computer_use_omni/__main__.py   (main(): set DPI awareness, run FastMCP stdio)
-src/computer_use_omni/config.py     (env-driven config: MAX_PIXELS default 1_200_000; MASKING default 'on'; ENFORCE_FOREGROUND default 'off'; CCC_AUTOGRANT default 'on')
-src/computer_use_omni/screen.py     (DPI, monitors, capture, downscale, coordinate scaling, masking apply, multi-monitor notes/hints, display_overview compositing)
-src/computer_use_omni/inputs.py     (SendInput mouse: move/click/drag/down/up/scroll, get_cursor_pos) — works in PHYSICAL/virtual-desktop coords
-src/computer_use_omni/keymap.py     (key-name->VK map, chord parsing, aliases)
-src/computer_use_omni/keyboard.py   (press_chord/hold/type_text/press_keys/release_keys via SendInput) — imports keymap
-src/computer_use_omni/apps.py       (resolve_app, launch_and_focus, foreground_process, enumerate_windows, mask_rects_for)
-src/computer_use_omni/permissions.py(Allowlist state, request_access logic, list_granted, is_allowed)
-src/computer_use_omni/clipboard.py  (read_text/write_text)
-src/computer_use_omni/server.py     (FastMCP app, register all 29 tools + dev reload, dispatch) — written in Integrate phase
-src/computer_use_omni/batch.py      (computer_batch dispatcher + teach stubs) — written in Integrate phase
-src/computer_use_omni/overlay.py    (CDC-style orange edge glow + centered pill; layered topmost click-through windows, WDA-excluded from captures)
-src/computer_use_omni/terminal.py   (find/shrink the controlling window — Windows Terminal (CCC) OR the Claude Desktop window (CDC, Electron Chrome_WidgetWin_1/claude.exe, resolved by ancestry); off-screen-hide on capture; kind-aware click-through: z-order drop for the non-layered terminal, WS_EX_TRANSPARENT for the layered Claude window; crash-safety state + startup self-heal)
+src/omni_computer_use/__init__.py
+src/omni_computer_use/__main__.py   (main(): set DPI awareness, run FastMCP stdio)
+src/omni_computer_use/config.py     (env-driven config: MAX_PIXELS default 1_200_000; MASKING default 'on'; ENFORCE_FOREGROUND default 'off'; CCC_AUTOGRANT default 'on')
+src/omni_computer_use/screen.py     (DPI, monitors, capture, downscale, coordinate scaling, masking apply, multi-monitor notes/hints, display_overview compositing)
+src/omni_computer_use/inputs.py     (SendInput mouse: move/click/drag/down/up/scroll, get_cursor_pos) — works in PHYSICAL/virtual-desktop coords
+src/omni_computer_use/keymap.py     (key-name->VK map, chord parsing, aliases)
+src/omni_computer_use/keyboard.py   (press_chord/hold/type_text/press_keys/release_keys via SendInput) — imports keymap
+src/omni_computer_use/apps.py       (resolve_app, launch_and_focus, foreground_process, enumerate_windows, mask_rects_for)
+src/omni_computer_use/permissions.py(Allowlist state, request_access logic, list_granted, is_allowed)
+src/omni_computer_use/clipboard.py  (read_text/write_text)
+src/omni_computer_use/server.py     (FastMCP app, register all 29 tools + dev reload, dispatch) — written in Integrate phase
+src/omni_computer_use/batch.py      (computer_batch dispatcher + teach stubs) — written in Integrate phase
+src/omni_computer_use/overlay.py    (CDC-style orange edge glow + centered pill; layered topmost click-through windows, WDA-excluded from captures)
+src/omni_computer_use/terminal.py   (find/shrink the controlling window — Windows Terminal (CCC) OR the Claude Desktop window (CDC, Electron Chrome_WidgetWin_1/claude.exe, resolved by ancestry); off-screen-hide on capture; kind-aware click-through: z-order drop for the non-layered terminal, WS_EX_TRANSPARENT for the layered Claude window; crash-safety state + startup self-heal)
 tests/mcp_client.py      (smoke client) — written in Boot test phase
 
 ## MODULE PUBLIC CONTRACT (exact signatures; stubs raise NotImplementedError)

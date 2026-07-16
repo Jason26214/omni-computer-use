@@ -15,7 +15,7 @@ import time
 import win32con
 import win32gui
 
-from computer_use_omni import apps
+from omni_computer_use import apps
 
 NOTEPAD = r"C:\Windows\System32\notepad.exe"   # a real GUI exe that shows a window
 WHERE = r"C:\Windows\System32\where.exe"        # exits immediately, no window

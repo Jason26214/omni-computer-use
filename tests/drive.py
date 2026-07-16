@@ -28,7 +28,7 @@ async def main() -> None:
 
     params = StdioServerParameters(
         command="uv",
-        args=["--directory", ROOT, "run", "python", "-m", "computer_use_omni"],
+        args=["--directory", ROOT, "run", "python", "-m", "omni_computer_use"],
         env={**os.environ},  # propagate COMPUTER_USE_* overrides to the server
     )
     async with stdio_client(params) as (read, write):

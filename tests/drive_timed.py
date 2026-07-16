@@ -29,7 +29,7 @@ async def main() -> None:
 
     params = StdioServerParameters(
         command="uv",
-        args=["--directory", ROOT, "run", "python", "-m", "computer_use_omni"],
+        args=["--directory", ROOT, "run", "python", "-m", "omni_computer_use"],
         env={**os.environ},
     )
 

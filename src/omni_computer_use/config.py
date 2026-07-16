@@ -1,4 +1,4 @@
-"""Environment-driven configuration for computer-use-omni.
+"""Environment-driven configuration for omni-computer-use.
 
 All values are resolved once at import time from environment variables, with
 defaults tuned for the Claude Code CLI (CCC) use case.

@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "computer-use-omni"
+name = "omni-computer-use"
 version = "1.0.0"
 description = "Windows computer-use MCP for the Claude Code CLI — a 1:1 replica of Claude Desktop's computer-use tool surface."
 readme = "README.md"
@@ -31,12 +31,12 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Jason26214/computer-use-omni"
-Repository = "https://github.com/Jason26214/computer-use-omni"
-Issues = "https://github.com/Jason26214/computer-use-omni/issues"
+Homepage = "https://github.com/Jason26214/omni-computer-use"
+Repository = "https://github.com/Jason26214/omni-computer-use"
+Issues = "https://github.com/Jason26214/omni-computer-use/issues"
 
 [project.scripts]
-computer-use-omni = "computer_use_omni.__main__:main"
+omni-computer-use = "omni_computer_use.__main__:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/computer_use_omni"]
+packages = ["src/omni_computer_use"]

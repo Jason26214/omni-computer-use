@@ -1,10 +1,10 @@
-"""Persistent rotating file log for computer-use-omni.
+"""Persistent rotating file log for omni-computer-use.
 
 So that when something fails during normal use, the tool call + full traceback
 are recorded for later debugging (the user can just say "it broke" and the log
 has the details).
 
-Writes to ``%LOCALAPPDATA%\\computer-use-omni\\logs\\mcp.log`` by default — a
+Writes to ``%LOCALAPPDATA%\\omni-computer-use\\logs\\mcp.log`` by default — a
 user-writable per-app directory that works for pip / uvx installs too (never
 inside site-packages) — override with the ``COMPUTER_USE_LOG_DIR`` environment
 variable. Setup is idempotent and never raises — logging must not be able to
@@ -17,7 +17,7 @@ import os
 import sys
 from logging.handlers import RotatingFileHandler
 
-_LOGGER_NAME = "computer_use_omni"
+_LOGGER_NAME = "omni_computer_use"
 _configured = False
 _log_path: str | None = None
 
@@ -28,14 +28,14 @@ def _default_log_dir() -> str:
         return env
     # A user-writable per-app location — works whether the package is installed
     # via pip / uvx (no source tree; must NOT write into site-packages) or run
-    # from a source checkout. Windows: %LOCALAPPDATA%\computer-use-omni\logs.
+    # from a source checkout. Windows: %LOCALAPPDATA%\omni-computer-use\logs.
     base = os.environ.get("LOCALAPPDATA") or os.environ.get("APPDATA")
     if base:
-        return os.path.join(base, "computer-use-omni", "logs")
+        return os.path.join(base, "omni-computer-use", "logs")
     # Non-Windows / no env: fall back to the OS temp dir.
     import tempfile
 
-    return os.path.join(tempfile.gettempdir(), "computer-use-omni", "logs")
+    return os.path.join(tempfile.gettempdir(), "omni-computer-use", "logs")
 
 
 def setup() -> str | None:
