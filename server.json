@@ -10,7 +10,7 @@
   "packages": [
     {
       "registryType": "pypi",
-      "identifier": "omni-computer-use",
+      "identifier": "omni-computer-use-mcp",
       "version": "1.0.0",
       "transport": {
         "type": "stdio"

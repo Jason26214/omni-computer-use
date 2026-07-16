@@ -312,7 +312,7 @@ wheels = [
 ]
 
 [[package]]
-name = "omni-computer-use"
+name = "omni-computer-use-mcp"
 version = "1.0.0"
 source = { editable = "." }
 dependencies = [

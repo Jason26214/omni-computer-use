@@ -13,13 +13,13 @@ Requires Windows and Python 3.11+ (uv / uvx fetch Python for you).
 Run standalone:
 
 ```powershell
-uvx omni-computer-use
+uvx omni-computer-use-mcp
 ```
 
 Add to the Claude Code CLI:
 
 ```powershell
-claude mcp add omni-computer-use -s user -- uvx omni-computer-use
+claude mcp add omni-computer-use -s user -- uvx omni-computer-use-mcp
 claude mcp list   # expect: omni-computer-use … ✓ Connected
 ```
 
@@ -28,7 +28,7 @@ Or in Claude Desktop's `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "omni-computer-use": { "command": "uvx", "args": ["omni-computer-use"] }
+    "omni-computer-use": { "command": "uvx", "args": ["omni-computer-use-mcp"] }
   }
 }
 ```
