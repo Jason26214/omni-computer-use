@@ -8,22 +8,16 @@ Same tool names, same parameters, same coordinate semantics as the desktop tool 
 
 ## Install
 
-Requires Windows and Python 3.11+ (uv / uvx fetch Python for you).
+Requires Windows and Python 3.11+ (uv / uvx fetch Python for you). The PyPI package name carries an `-mcp` suffix; everything else — the command, the server key, this repo — is plain `omni-computer-use`.
 
-Run standalone:
-
-```powershell
-uvx omni-computer-use-mcp
-```
-
-Add to the Claude Code CLI:
+**Recommended — install into Claude Code.** Claude Desktop reads Claude Code's MCP servers *in addition to* its own, so this one command makes the server available in both the Claude Code CLI and the Claude Desktop app:
 
 ```powershell
 claude mcp add omni-computer-use -s user -- uvx omni-computer-use-mcp
 claude mcp list   # expect: omni-computer-use … ✓ Connected
 ```
 
-Or in Claude Desktop's `claude_desktop_config.json`:
+The other directions are narrower. In Claude Desktop's `claude_desktop_config.json` — visible to Claude Desktop only, the CLI won't see it:
 
 ```json
 {
@@ -32,6 +26,16 @@ Or in Claude Desktop's `claude_desktop_config.json`:
   }
 }
 ```
+
+A desktop-extension bundle (`.mcpb`, one-click install) is attached to each GitHub release — same scope caveat: Claude Desktop only.
+
+Run standalone (any MCP client, or just to poke at it):
+
+```powershell
+uvx omni-computer-use-mcp
+```
+
+> Windows spawn tip: `uv`/`uvx` are native executables and need no wrapper. If your MCP client launches servers through a `.cmd` shim (like `npx`), *that* one needs a `cmd /c` prefix — this server doesn't.
 
 ## Example
 
