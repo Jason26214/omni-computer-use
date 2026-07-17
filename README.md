@@ -2,6 +2,10 @@
 
 A faithful **1:1 replica of Anthropic's official `computer-use` tool surface** — shipped as a plain **MCP server** for Windows. It lets the **Claude Code CLI** (or any MCP client) drive the Windows desktop the way Claude Desktop's built-in computer-use does: screenshots, mouse / keyboard / scroll / drag / batch input, clipboard, multi-monitor, and application launch.
 
+![A real Claude Code CLI session on Windows: the terminal shrinks to the corner, the orange glow and pill appear, and the agent types a hello line into VS Code](docs/demo.gif)
+
+*Real session, one take: the CLI activates omni (glow + pill + terminal parked to the corner), opens VS Code, and types. The corner terminal is the actual conversation that produced this GIF.*
+
 Same tool names, same parameters, same coordinate semantics as the desktop tool — an agent that already knows Anthropic's computer-use works here unchanged. Built and verified against Claude Desktop's own `computer-use` as the ground-truth oracle.
 
 > Vision-and-coordinate based, like the official tool (rather than a UI-tree / accessibility approach) — for when you want Anthropic's computer-use paradigm on a Windows CLI: desktop automation, GUI testing, or letting the agent verify the app you're building.
