@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "omni-computer-use-mcp"
-version = "1.0.0"
+version = "1.0.1"
 description = "Windows computer-use MCP for the Claude Code CLI — a 1:1 replica of Claude Desktop's computer-use tool surface."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -41,3 +41,8 @@ omni-computer-use-mcp = "omni_computer_use.__main__:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/omni_computer_use"]
+
+[tool.hatch.build.targets.sdist]
+# Keep the PyPI tarball lean: the README demo GIF (a few MB) is a GitHub-only
+# asset, not needed to build or run the package. It stays in the repo.
+exclude = ["docs"]
