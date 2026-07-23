@@ -127,6 +127,13 @@ _clickthrough_method: str = ""
 #: None outside a transparent pulse.
 _clickthrough_saved_exstyle: int | None = None
 
+#: Whether the transparent-method pulse ALSO dropped the window's z-order to the
+#: bottom (only done for drag actions via ``drop_zorder``, so a window under the
+#: controlling window can be title-bar dragged). end_clickthrough restores the
+#: z-order only when this is set, leaving the plain-click path (transparent-only,
+#: no z-order blip) exactly as it was.
+_clickthrough_zdropped: bool = False
+
 #: Seconds to keep the terminal out of the way after the synthetic action before
 #: restoring it, so the input's hit-test resolves first and the restore doesn't
 #: race ahead of the click (CDC holds its pass-through ~50-120ms).
@@ -866,7 +873,7 @@ def restore() -> None:
     _reset_shrink_state()
 
 
-def begin_clickthrough() -> bool:
+def begin_clickthrough(drop_zorder: bool = False) -> bool:
     """Drop the terminal to the BOTTOM of the z-order for one synthetic action.
 
     A synthetic mouse action would otherwise land on the topmost terminal parked
@@ -882,11 +889,19 @@ def begin_clickthrough() -> bool:
     Moving it in z is reliable and leaves rendering untouched. Guarded; never
     raises.
 
+    Args:
+        drop_zorder: For the layered (CDC) transparent method only, ALSO drop the
+            window to the z-bottom for the action. Needed for drags: a window
+            under a topmost controlling window can't start its title-bar move
+            loop. Off for plain clicks so the transparent method keeps its
+            no-z-order-blip behavior. The non-layered (terminal) path always drops
+            z-order regardless.
+
     Returns:
         ``True`` if the terminal was moved to the bottom, else ``False``.
     """
     global _clickthrough_active, _clickthrough_was_topmost, _clickthrough_method
-    global _clickthrough_saved_exstyle
+    global _clickthrough_saved_exstyle, _clickthrough_zdropped
     if _clickthrough_active:
         return True
     try:
@@ -916,6 +931,25 @@ def begin_clickthrough() -> bool:
             # reaches the target instead of landing on the opaque Claude window.
             if win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE) & win32con.WS_EX_TRANSPARENT:
                 applied = "transparent"
+                if drop_zorder:
+                    # Drag only: ALSO drop this window out of the z-top for the
+                    # action. A window UNDERNEATH the controlling window cannot be
+                    # title-bar dragged while a topmost window sits over it:
+                    # transparent passes the click through but keeps this window
+                    # topmost, so the target's modal move loop never engages (the
+                    # "drag in the overlap corner does nothing" bug). Sending it to
+                    # the z-bottom lets the target rise and be moved;
+                    # end_clickthrough restores the z-order. Position/size are
+                    # unchanged (SWP_NOMOVE|SWP_NOSIZE) so the window does not move.
+                    # Plain clicks skip this, keeping the transparent method's
+                    # no-z-order-blip behavior.
+                    win32gui.SetWindowPos(
+                        hwnd,
+                        win32con.HWND_BOTTOM,
+                        0, 0, 0, 0,
+                        win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOACTIVATE,
+                    )
+                    _clickthrough_zdropped = True
                 # Crash-safety record so a force-kill DURING the transparent pulse
                 # is self-healable even when shrink_to_corner never ran (CLICKTHROUGH
                 # and SHRINK are independent flags). When shrink DID run it already
@@ -953,16 +987,18 @@ def end_clickthrough() -> None:
     not move anything. Never raises.
     """
     global _clickthrough_active, _clickthrough_was_topmost, _clickthrough_method
-    global _clickthrough_saved_exstyle
+    global _clickthrough_saved_exstyle, _clickthrough_zdropped
     if not _clickthrough_active:
         return
     hwnd = _terminal_hwnd
     was_topmost = _clickthrough_was_topmost
     method = _clickthrough_method
     saved_ex = _clickthrough_saved_exstyle
+    zdropped = _clickthrough_zdropped
     _clickthrough_active = False
     _clickthrough_method = ""
     _clickthrough_saved_exstyle = None
+    _clickthrough_zdropped = False
     if not hwnd:
         return
     try:
@@ -978,6 +1014,17 @@ def end_clickthrough() -> None:
             if now & win32con.WS_EX_TRANSPARENT:
                 win32gui.SetWindowLong(
                     hwnd, win32con.GWL_EXSTYLE, now & ~win32con.WS_EX_TRANSPARENT
+                )
+            # Restore the z-order ONLY if begin_clickthrough dropped it (drag
+            # actions). Plain clicks never touched z-order, so leaving it alone
+            # preserves the transparent method's no-z-order-blip behavior.
+            if zdropped:
+                insert_after = (
+                    win32con.HWND_TOPMOST if was_topmost else win32con.HWND_NOTOPMOST
+                )
+                win32gui.SetWindowPos(
+                    hwnd, insert_after, 0, 0, 0, 0,
+                    win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOACTIVATE,
                 )
             # Drop the temporary crash-safety record begin wrote for the no-shrink
             # case (shrink's own record, if any, persists for restore()).
@@ -1001,14 +1048,18 @@ def end_clickthrough() -> None:
 
 
 @contextlib.contextmanager
-def clickthrough():
+def clickthrough(drop_zorder: bool = False):
     """Context manager: terminal yields the click for the enclosed action.
 
     Drops the terminal to the z-order bottom, runs the action, holds it there a
     short settle window so the input's hit-test resolves, then restores topmost.
     Yields the bool result of :func:`begin_clickthrough`; always restores on exit.
+
+    ``drop_zorder`` is forwarded to :func:`begin_clickthrough` — pass ``True`` for
+    drag actions so a window under the (layered/CDC) controlling window can be
+    dragged; plain clicks leave it ``False`` to avoid a z-order blip.
     """
-    ok = begin_clickthrough()
+    ok = begin_clickthrough(drop_zorder=drop_zorder)
     try:
         yield ok
     finally:

@@ -403,7 +403,12 @@ def run_action(action: dict) -> list:
 
     name = action.get("action") or action.get("type")
     if not name:
-        raise ActionError("action is missing an 'action' field")
+        raise ActionError(
+            "batch action is missing its 'action' field; each action is a flat "
+            'object like {"action": "left_click", "coordinate": [x, y]} — the '
+            "action name in 'action', plus that action's own arguments as sibling "
+            'keys (not nested under "args"/"tool")'
+        )
     name = str(name)
 
     # ----- capture (no input gating) -----
@@ -457,8 +462,12 @@ def run_action(action: dict) -> list:
         # the user hasn't moved the terminal, and a wrong position guess could
         # let a click land on the terminal instead of the target. Simple and
         # safe: every AI mouse action makes the terminal yield, wherever it is.
+        # Drags need the layered (CDC) controlling window dropped out of the
+        # z-top so a target underneath it can start its title-bar move loop;
+        # plain clicks don't, and skipping it keeps the transparent method's
+        # no-z-order-blip behavior for the common case.
         cm = (
-            terminal.clickthrough()
+            terminal.clickthrough(drop_zorder=(name == "left_click_drag"))
             if config.CLICKTHROUGH
             else contextlib.nullcontext()
         )

@@ -17,6 +17,7 @@ the keyboard layer.
 from __future__ import annotations
 
 import ctypes
+import time
 from ctypes import wintypes
 
 # --------------------------------------------------------------------------- #
@@ -49,6 +50,18 @@ WHEEL_DELTA = 120
 
 # Number of intermediate moves for a drag.
 _DRAG_STEPS = 20
+
+# Dwell times (seconds) inserted into a drag so Windows registers it as a real
+# drag rather than a fast down/up. A title-bar window move runs in a modal
+# move loop (WM_NCLBUTTONDOWN -> SC_MOVE) that only engages if the button stays
+# down for a moment and the pointer then moves continuously; with zero delay all
+# events are injected in ~1ms and the loop can see down+up almost together and
+# treat it as a click (window never moves — the "reported success but nothing
+# moved" bug). These space the sequence over ~350ms, like a human drag.
+_DRAG_GRAB_DWELL_S = 0.02     # settle at the grab point before pressing
+_DRAG_PRESS_DWELL_S = 0.06    # hold after press so the modal move loop engages
+_DRAG_STEP_DWELL_S = 0.012    # between intermediate moves (continuous motion)
+_DRAG_RELEASE_DWELL_S = 0.03  # settle at the destination before releasing
 
 _user32 = ctypes.windll.user32
 
@@ -281,15 +294,19 @@ def drag(px0: int, py0: int, px1: int, py1: int, button: str = "left") -> None:
     down_flag, up_flag = _button_flags(button)
 
     _move_abs(px0, py0)
+    time.sleep(_DRAG_GRAB_DWELL_S)
     _send_mouse(0, 0, down_flag)
+    time.sleep(_DRAG_PRESS_DWELL_S)
     try:
         for step in range(1, _DRAG_STEPS + 1):
             t = step / _DRAG_STEPS
             ix = round(px0 + (px1 - px0) * t)
             iy = round(py0 + (py1 - py0) * t)
             _move_abs(ix, iy)
+            time.sleep(_DRAG_STEP_DWELL_S)
     finally:
         _move_abs(px1, py1)
+        time.sleep(_DRAG_RELEASE_DWELL_S)
         _send_mouse(0, 0, up_flag)
 
 

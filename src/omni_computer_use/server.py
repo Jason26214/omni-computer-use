@@ -20,7 +20,7 @@ import atexit
 import functools
 import sys
 import threading
-from typing import Any
+from typing import Any, Literal
 
 from mcp.server.fastmcp import FastMCP
 from mcp.types import ToolAnnotations
@@ -384,7 +384,7 @@ def mouse_move(coordinate: list[int]) -> list:
 
 @_ltool("Left Click", destructive=True)
 def left_click(coordinate: list[int], text: str | None = None) -> list:
-    """Left-click at an image-space coordinate; optional 'text' holds modifiers (e.g. 'ctrl+shift')."""
+    """Left-click at an image-space coordinate; optional 'text' holds modifiers to chord with the click (ctrl/shift/alt/win, joined with '+', e.g. 'ctrl+shift')."""
     return batch.run_action(
         {"action": "left_click", "coordinate": coordinate, "text": text}
     )
@@ -450,9 +450,11 @@ def left_mouse_up() -> list:
 
 @_ltool("Scroll", destructive=True)
 def scroll(
-    coordinate: list[int], scroll_direction: str, scroll_amount: int
+    coordinate: list[int],
+    scroll_direction: Literal["up", "down", "left", "right"],
+    scroll_amount: int,
 ) -> list:
-    """Scroll at an image-space coordinate. Direction: up/down/left/right; amount in wheel ticks."""
+    """Scroll at an image-space coordinate. Direction: up/down/left/right; amount in wheel ticks (notches)."""
     return batch.run_action(
         {
             "action": "scroll",
@@ -470,13 +472,21 @@ def scroll(
 
 @_ltool("Press Key Chord", destructive=True)
 def key(text: str, repeat: int = 1) -> list:
-    """Press a key chord (e.g. 'Return', 'ctrl+a', 'alt+F4'), optionally repeated."""
+    """Press a key chord like 'Return', 'ctrl+a', or 'alt+F4' (join with '+'), optionally repeated.
+
+    Key names are case-insensitive: letters a-z, digits 0-9, f1-f24,
+    Return/Enter, Escape/Esc, Tab, Space, Backspace, Delete, Insert, Home, End,
+    PageUp/PageDown, arrow keys Up/Down/Left/Right, and modifiers
+    ctrl/shift/alt/win (aliases control/option/cmd/super/meta also work). Note:
+    with a non-Latin IME active, letter keys route through the IME — use ``type``
+    for text. See SPEC.md for the full key table.
+    """
     return batch.run_action({"action": "key", "text": text, "repeat": repeat})
 
 
 @_ltool("Hold Key", destructive=True)
 def hold_key(text: str, duration: float) -> list:
-    """Hold a key chord down for 'duration' seconds, then release it."""
+    """Hold a key chord down for 'duration' SECONDS, then release it (chord syntax as in `key`)."""
     return batch.run_action(
         {"action": "hold_key", "text": text, "duration": duration}
     )
@@ -583,9 +593,34 @@ def write_clipboard(text: str) -> str:
 
 @_ltool("Run Action Batch", destructive=True)
 def computer_batch(actions: list[dict]) -> list:
-    """Run a list of actions sequentially against the pre-batch screenshot's coordinates.
+    """Run several actions in one call, against the pre-batch screenshot's coordinates.
 
-    Stops on the first error; screenshot/zoom images are interleaved in the output.
+    Each action is a FLAT object: an ``"action"`` field naming the operation,
+    plus that operation's own arguments as sibling keys — NOT nested under an
+    ``"args"``/``"input"`` key, and the discriminator is ``"action"`` (not
+    ``"tool"``/``"name"``/``"type"``). Names and argument keys are exactly the
+    same as the equivalent standalone tool; coordinates are image-space ``[x, y]``.
+
+    Example::
+
+        {"actions": [
+            {"action": "left_click", "coordinate": [100, 200]},
+            {"action": "left_click", "coordinate": [100, 200], "text": "ctrl"},
+            {"action": "type", "text": "hello"},
+            {"action": "key", "text": "Return"},
+            {"action": "scroll", "coordinate": [500, 400],
+             "scroll_direction": "down", "scroll_amount": 3},
+            {"action": "wait", "duration": 1},
+            {"action": "screenshot"}
+        ]}
+
+    Valid ``action`` values: ``mouse_move``, ``left_click``, ``right_click``,
+    ``middle_click``, ``double_click``, ``triple_click``, ``left_click_drag``,
+    ``left_mouse_down``, ``left_mouse_up``, ``scroll``, ``key``, ``hold_key``,
+    ``type``, ``wait``, ``screenshot``, ``zoom``, ``cursor_position``.
+
+    Runs sequentially and STOPS on the first error (returning what ran so far);
+    ``screenshot``/``zoom`` images are interleaved into the output.
     """
     return batch.run_batch(actions)
 
@@ -597,13 +632,26 @@ def teach_step(
     actions: list[dict] | None = None,
     anchor: Any = None,
 ) -> list:
-    """Teach-mode step (phase-2 stub): executes the actions, then returns a screenshot."""
+    """Teach-mode step (phase-2 stub): executes the actions, then returns a screenshot.
+
+    ``actions`` uses the same flat ``{"action": <name>, ...args}`` shape as
+    ``computer_batch`` (see that tool for the format and valid action names).
+    ``explanation``/``next_preview`` are optional human-facing strings; ``anchor``
+    is accepted for forward-compatibility but ignored by this stub (no tooltip
+    overlay in the CLI build).
+    """
     return batch.teach_step(explanation, next_preview, actions, anchor)
 
 
 @_ltool("Teach Batch", destructive=True)
 def teach_batch(steps: list[dict]) -> list:
-    """Teach-mode batch (phase-2 stub): executes each step's actions, then returns a final screenshot."""
+    """Teach-mode batch (phase-2 stub): executes each step's actions, then returns a final screenshot.
+
+    Each step is an object that may carry an ``"actions"`` list (same flat
+    ``{"action": <name>, ...args}`` shape as ``computer_batch``) plus optional
+    ``"explanation"``/``"next_preview"`` strings, e.g.
+    ``{"steps": [{"explanation": "...", "actions": [{"action": "left_click", "coordinate": [10, 20]}]}]}``.
+    """
     return batch.teach_batch(steps)
 
 
