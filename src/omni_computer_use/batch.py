@@ -441,8 +441,13 @@ def run_action(action: dict) -> list:
         raise ActionError(
             "keyboard input blocked: the controlling window (Claude Desktop / "
             "the hosting terminal) has keyboard focus, so this text would land "
-            "in Claude's own control surface instead of your target app. Click "
-            "the target application first to move focus there, then retry."
+            "in Claude's own control surface instead of your target app. Fix: "
+            "click the target application first so it takes focus. Do the click "
+            "and the keyboard action in ONE computer_batch — between separate "
+            "tool calls focus commonly drifts back to the controlling window and "
+            "this guard trips again. Example: "
+            '{"actions": [{"action": "left_click", "coordinate": [x, y]}, '
+            '{"action": "type", "text": "..."}, {"action": "key", "text": "Return"}]}'
         )
 
     def emit(msg: str) -> list:

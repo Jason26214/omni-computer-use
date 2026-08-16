@@ -52,10 +52,23 @@ SHRINK_HEIGHT_FRAC: float = 0.666
 SHRINK_MARGIN_PX: int = 0
 
 #: Terminal-host executables we prefer (in order) when walking the ancestry.
-#: WindowsTerminal.exe is the real host window; the others are fallbacks that
-#: own a console window when not running inside Windows Terminal.
+#: The GUI terminal emulators come first: when the CLI runs inside one, THAT is
+#: the real host window and the shell beneath it (pwsh/cmd) owns no window of its
+#: own. The console hosts after them are the fallback for a bare console.
+#: Anything not listed here still resolves through the generic ancestor fallback
+#: (kind='fallback'), so an unknown terminal works — it is just classified less
+#: precisely, which matters for the self-heal window-identity guard.
 _TERMINAL_EXES: tuple[str, ...] = (
+    # GUI terminal emulators (own the visible window)
     "windowsterminal.exe",
+    "warp.exe",
+    "wezterm-gui.exe",
+    "alacritty.exe",
+    "ghostty.exe",
+    "tabby.exe",
+    "hyper.exe",
+    "rio.exe",
+    # Console hosts / shells (own a console window when not inside the above)
     "pwsh.exe",
     "powershell.exe",
     "openconsole.exe",

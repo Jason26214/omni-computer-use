@@ -621,6 +621,27 @@ def computer_batch(actions: list[dict]) -> list:
 
     Runs sequentially and STOPS on the first error (returning what ran so far);
     ``screenshot``/``zoom`` images are interleaved into the output.
+
+    USE THIS FOR ANYTHING TIMING-SENSITIVE. Actions in a batch run back-to-back
+    in-process (milliseconds apart); separate tool calls are a full round-trip
+    apart (seconds), which is far too slow to catch a transient UI state. So a
+    batch is the only way to hit something like a Stop/Cancel button that exists
+    only while a request is in flight, or to click a menu item before the menu
+    closes. Tune the moment with ``wait``, and interleave ``screenshot`` actions
+    to get a frame-by-frame record of what happened::
+
+        {"actions": [
+            {"action": "left_click", "coordinate": [400, 300]},   # focus the app first
+            {"action": "type", "text": "..."},
+            {"action": "key", "text": "Return"},                  # fire the request
+            {"action": "wait", "duration": 0.25},                 # timing knob
+            {"action": "left_click", "coordinate": [980, 300]},   # hit Stop mid-flight
+            {"action": "screenshot"}                              # evidence
+        ]}
+
+    Starting a batch with a click on the target window also satisfies the
+    keyboard self-harm guard (which blocks ``type``/``key`` while the
+    controlling window holds focus), since the click moves focus there.
     """
     return batch.run_batch(actions)
 

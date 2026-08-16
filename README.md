@@ -122,6 +122,9 @@ A CLI has no permission GUI, so `request_access` **auto-grants** resolvable apps
 
 - **IME affects `key` / `hold_key`, not `type`.** `type` injects Unicode directly and bypasses the input method (CJK and emoji work in any layout). `key` / `hold_key` send virtual-key codes that pass **through** the active IME — so with a Chinese IME active, sending the letter `a` opens a pinyin candidate list instead of typing `a`. Use `type` for text; switch the IME to English for letter shortcuts.
 - **Elevated apps** (Task Manager, UAC prompts, admin installers) can't be driven — Windows UIPI blocks input from a non-elevated process. Same limitation as the desktop tool.
+- **Timing-critical UI needs `computer_batch`.** Actions inside one batch run milliseconds apart; separate tool calls are a model round-trip apart (seconds). Anything that only exists mid-flight — a Stop/Cancel button, a menu that closes on blur — is unreachable one call at a time. Put the whole sequence in one batch and tune the moment with `wait`.
+- **Keyboard actions need the target focused first.** The self-harm guard blocks `type` / `key` while the controlling window holds focus. Start the batch with a click on the target window: the click moves focus, and the keyboard actions that follow in the same batch go where you meant.
+- **A click that lands is not always a click that acts.** Synthetic clicks are delivered by the OS, but an app can still ignore one — notably an Electron window whose title bar is drawn by the renderer, when that renderer is in an error state: the native tooltip still appears and the window still activates, yet the close button does nothing while a native `WM_CLOSE` closes it fine. Verify with a screenshot rather than trusting the returned `Clicked.`, and suspect the app (not the coordinate) when hover works but the action doesn't.
 
 ## Tests
 
