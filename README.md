@@ -79,7 +79,7 @@ All click / move / scroll / drag / zoom coordinates are in the **image-pixel spa
 
 ## How it works (the parts worth reading)
 
-**Faithful desktop visuals.** While a session is active the server reproduces Claude Desktop's on-screen affordances, pixel-calibrated from reference captures: a static orange edge glow, a centered "Claude is using your computer" pill that flies to the corner, and the controlling window (the Windows Terminal running the CLI, or the Claude Desktop window itself) shrunk flush to the top-right and **parked off-screen during each capture** so screenshots show the true desktop with no black box. Click-through is kind-aware: a non-layered terminal drops to the bottom of the z-order for each synthetic click; the layered Claude Desktop window gets `WS_EX_TRANSPARENT` (the desktop tool's own approach) so clicks pass through to whatever is beneath — the window itself never moves, so the user's real mouse is unaffected.
+**Faithful desktop visuals.** While a session is active the server reproduces Claude Desktop's on-screen affordances, pixel-calibrated from reference captures: a static orange edge glow, a centered "Agent is using your computer" pill that flies to the corner, and the controlling window (the Windows Terminal running the CLI, or the Claude Desktop window itself) shrunk flush to the top-right and **parked off-screen during each capture** so screenshots show the true desktop with no black box. Click-through is kind-aware: a non-layered terminal drops to the bottom of the z-order for each synthetic click; the layered Claude Desktop window gets `WS_EX_TRANSPARENT` (the desktop tool's own approach) so clicks pass through to whatever is beneath — the window itself never moves, so the user's real mouse is unaffected.
 
 **Keyboard self-harm guard.** Synthetic keystrokes go to whatever holds OS focus. If the controlling window (the Claude window, or the hosting terminal) is frontmost, `type` / `key` are **blocked** — otherwise the text would land in the agent's own conversation, or run as a shell command with a trailing Return. The guard is unconditional and identifies the control surface by window identity and owning process, while still leaving a second, unrelated terminal window a legitimate target. Mouse actions are exempt (a click carries its own coordinate).
 
@@ -112,7 +112,7 @@ A CLI has no permission GUI, so `request_access` **auto-grants** resolvable apps
 | `COMPUTER_USE_GLOW` | `on` | Static orange edge glow while a session is active. |
 | `COMPUTER_USE_SHRINK_TERMINAL` | `on` | Shrink the controlling window to the top-right corner. |
 | `COMPUTER_USE_HIDE_CONTROLLING` | `on` | Park the controlling window off-screen during captures. |
-| `COMPUTER_USE_PILL` | `on` | Centered "Claude is using your computer" pill. |
+| `COMPUTER_USE_PILL` | `on` | Centered "Agent is using your computer" pill. |
 | `COMPUTER_USE_GLOW_COLOR` | `217,119,87` | Glow / pill color (`#D97757`). |
 | `COMPUTER_USE_GLOW_ALPHA` | `0.4` | Peak glow opacity at the very edge. |
 | `COMPUTER_USE_GLOW_BAND` | `0.05` | Glow band width as a fraction of the smaller screen dimension. |

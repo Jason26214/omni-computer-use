@@ -8,7 +8,7 @@ Claude Desktop (CDC) shows while its computer-use feature is active:
   over a band sized to a small fraction of the smaller screen dimension. The
   brand orange is ``#D97757`` (rgb 217, 119, 87).
 * A **dead-centered pill** — a rounded cream capsule (``#FAF3F0``) with a solid
-  orange dot and the text "Claude is using your computer" in bold ``#D97757``.
+  orange dot and the text "Agent is using your computer" in bold ``#D97757``.
   It appears, holds ~5 seconds, then shrinks and flies toward the top-right
   corner and vanishes.
 
@@ -35,7 +35,7 @@ Public API::
 
     start(color=(217, 119, 87), max_alpha=0.6, band_frac=0.05,
           exclude_from_capture=True, show_pill=True,
-          pill_text="Claude is using your computer") -> None
+          pill_text="Agent is using your computer") -> None
     stop() -> None
     is_running() -> bool
 
@@ -230,7 +230,7 @@ class _State:
     band_frac: float = 0.05
     exclude_from_capture: bool = True
     show_pill: bool = True
-    pill_text: str = "Claude is using your computer"
+    pill_text: str = "Agent is using your computer"
 
 
 _state = _State()
@@ -248,7 +248,7 @@ def start(
     band_frac: float = 0.05,
     exclude_from_capture: bool = True,
     show_pill: bool = True,
-    pill_text: str = "Claude is using your computer",
+    pill_text: str = "Agent is using your computer",
 ) -> None:
     """Start the overlay on a dedicated daemon thread. Idempotent; never raises.
 

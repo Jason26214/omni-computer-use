@@ -120,5 +120,5 @@ GLOW_BAND_FRAC: float = _parse_float("COMPUTER_USE_GLOW_BAND", 0.05)
 #: Exclude the glow/pill windows from screen captures (WDA_EXCLUDEFROMCAPTURE).
 GLOW_EXCLUDE_CAPTURE: bool = _flag("COMPUTER_USE_GLOW_EXCLUDE", True)
 
-#: Show the centered "Claude is using your computer" pill on activation.
+#: Show the centered "Agent is using your computer" pill on activation.
 PILL: bool = _flag("COMPUTER_USE_PILL", True)
