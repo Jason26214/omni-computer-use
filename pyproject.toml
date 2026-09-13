@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "omni-computer-use-mcp"
-version = "1.0.1"
-description = "Windows computer-use MCP for the Claude Code CLI — a 1:1 replica of Claude Desktop's computer-use tool surface."
+version = "1.0.2"
+description = "Windows computer-use MCP server: a 1:1 replica of Anthropic's computer-use tool surface, for any MCP client."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
