@@ -1,10 +1,12 @@
 # omni-computer-use
 
-A faithful **1:1 replica of Anthropic's official `computer-use` tool surface** — shipped as a plain **MCP server** for Windows. It lets the **Claude Code CLI** (or any MCP client) drive the Windows desktop the way Claude Desktop's built-in computer-use does: screenshots, mouse / keyboard / scroll / drag / batch input, clipboard, multi-monitor, and application launch.
+A faithful **1:1 replica of Anthropic's official `computer-use` tool surface** — shipped as a plain **MCP server** for Windows. It lets **any MCP client** drive the Windows desktop the way Claude Desktop's built-in computer-use does: screenshots, mouse / keyboard / scroll / drag / batch input, clipboard, multi-monitor, and application launch.
 
-![A real Claude Code CLI session on Windows: the terminal shrinks to the corner, the orange glow and pill appear, and the agent types a hello line into VS Code](docs/demo.gif)
+![A real Codex session on Windows: the Codex window shrinks to the corner, the orange glow and the "Agent is using your computer" pill appear, and the agent types a hello line into a fresh VS Code window](docs/demo.gif)
 
-*Real session, one take: the CLI activates omni (glow + pill + terminal parked to the corner), opens VS Code, and types. The corner terminal is the actual conversation that produced this GIF.*
+*Real session, driven by Codex: activating omni shrinks the Codex window to the corner and shows the glow and pill, then the agent opens VS Code and types. The corner window is the actual Codex conversation that recorded and cut this GIF.*
+
+**Verified hosts:** Claude Code CLI, Claude Desktop (Code and Cowork), and the Codex app. The server finds its host by walking its own process ancestry, so no host-specific setup is needed.
 
 Same tool names, same parameters, same coordinate semantics as the desktop tool — an agent that already knows Anthropic's computer-use works here unchanged. Built and verified against Claude Desktop's own `computer-use` as the ground-truth oracle.
 
