@@ -2,7 +2,7 @@
 
 A faithful **1:1 replica of Anthropic's official `computer-use` tool surface** — shipped as a plain **MCP server** for Windows. It lets **any MCP client** drive the Windows desktop the way Claude Desktop's built-in computer-use does: screenshots, mouse / keyboard / scroll / drag / batch input, clipboard, multi-monitor, and application launch.
 
-![A real Claude Code CLI session on Windows: the terminal shrinks to the corner, the orange glow and pill appear, and the agent types a hello line into VS Code](docs/demo.gif)
+![A real Claude Code CLI session on Windows: the terminal shrinks to the corner, the orange glow and pill appear, and the agent types a hello line into VS Code](docs/demo-claude-code.gif)
 
 *Real session in the Claude Code CLI, one take: the agent activates omni, the terminal parks in the corner, VS Code opens, and the line is typed. Anthropic's own computer-use is not available in the CLI on Windows.*
 
