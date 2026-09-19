@@ -1,20 +1,32 @@
 # omni-computer-use
 
-A faithful **1:1 replica of Anthropic's official `computer-use` tool surface** — shipped as a plain **MCP server** for Windows. It lets **any MCP client** drive the Windows desktop the way Claude Desktop's built-in computer-use does: screenshots, mouse / keyboard / scroll / drag / batch input, clipboard, multi-monitor, and application launch.
+I got tired of the permission limits in the computer use of Claude Code and Codex, so I built my own. Especially for us Windows users: there is no computer use at all in the Claude Code CLI here. I really resent that. Why are we Windows users always second class citizens in vibe coding?
 
-![A real Claude Code CLI session on Windows: the terminal shrinks to the corner, the orange glow and pill appear, and the agent types a hello line into VS Code](docs/demo-claude-code.gif)
+I have been using omni myself since June 2026. Whenever I find something that annoys me, I update it.
 
-*Real session in the Claude Code CLI, one take: the agent activates omni, the terminal parks in the corner, VS Code opens, and the line is typed. Anthropic's own computer-use is not available in the CLI on Windows.*
+I use both Claude Code and Codex, and omni runs perfectly on Claude Desktop Code, the Claude Code CLI and Codex. The GIFs below show it: both Claude and GPT open VS Code and type into it. I tested it in Warp too, works there. I also recommended it to a friend who uses Cursor, he tested it and it works for him.
 
-**Verified hosts:** Claude Code CLI, Claude Desktop (Code and Cowork), and the Codex app. The server finds its host by walking its own process ancestry, so no host-specific setup is needed.
+It works everywhere because it does not integrate with any of them. It is a plain MCP server. When it starts it walks up its own process ancestry, and the first ancestor that owns a window is the window it serves. So whether you run it from a terminal, from Claude Desktop or from Codex, it works that out by itself, and you configure nothing.
 
-![The same thing driven by Codex: the Codex window shrinks to the corner, the glow and pill appear, and the agent types into a fresh VS Code window](docs/demo-codex.gif)
+If you are building a desktop app of your own, try omni. The agent can see your UI and debug it by itself, which is very handy. Same idea as using Playwright when you build web apps.
 
-*The same session driven by Codex, recorded and cut by Codex itself.*
+One line to install it:
 
-Same tool names, same parameters, same coordinate semantics as the desktop tool — an agent that already knows Anthropic's computer-use works here unchanged. Built and verified against Claude Desktop's own `computer-use` as the ground-truth oracle.
+```powershell
+claude mcp add omni-computer-use -s user -- uvx omni-computer-use-mcp
+```
 
-> Vision-and-coordinate based, like the official tool (rather than a UI-tree / accessibility approach) — for when you want Anthropic's computer-use paradigm on a Windows CLI: desktop automation, GUI testing, or letting the agent verify the app you're building.
+Here are the two GIFs:
+
+![Claude Code CLI on Windows: the terminal shrinks to the corner, the orange glow and pill appear, and the agent types a line into VS Code](docs/demo-claude-code.gif)
+
+*Claude Code CLI, one take.*
+
+![Codex on Windows: the Codex window shrinks to the corner, the glow and pill appear, and the agent types into a fresh VS Code window](docs/demo-codex.gif)
+
+*Codex, one take. Codex recorded and cut this one itself.*
+
+Everything below is written for AI. Skip it if you want. Good luck 👍
 
 ## Install
 
