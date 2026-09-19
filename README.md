@@ -82,7 +82,6 @@ launched "…" but its process exited within ~2s        # crashed on startup —
 - **29 tools** — 27 matching Claude Desktop's computer-use, plus `deactivate` and `display_overview`; a dev `reload` tool makes **30** when `COMPUTER_USE_DEV=on`.
 - **16-scenario end-to-end suite** under `tests/` (`scen_*.json`), each run through a fresh MCP process.
 - Built and verified on **Windows 11** (2560×1600 @ 150% DPI) against Claude Desktop's computer-use as the oracle; the screenshot downscale matches CDC's ~1.2 MP within rounding.
-- **In daily use since 2026-06.**
 
 ## Tools
 
